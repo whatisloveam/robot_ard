@@ -1,12 +1,13 @@
 
-// github.com/whatisloveam/robot
+// github.com/whatisloveam/robot_ard
 
 int s1, s2;
+float yaw = 0;
 
 void PAction() {
 	upd();
 
-	int u = -0.3 *(analogRead(A0) - analogRead(A1));
+	int u = 0.3 *(s1 - s2);
 	motorB(150 + u);
 	motorC(150 - u);
 	delay(10);
@@ -16,7 +17,7 @@ void line() {
 }
 void lineForCross() {
 	upd();
-	while(!(s1 < 60 && s2 < 45)) PAction();
+	while(!(s1 < 45 && s2 < 45)) PAction();
 }
 void upd() {
 	s1 = map(analogRead(A0), 1000, 30, 0, 100);
@@ -51,13 +52,14 @@ void loop()
 
 void turnwithgyro(int angle)
 {
-  pos = 0;
+  yaw = 0;
   int u;
   int err, errold;
   int P;
   int D;
   float I = 0;
-  unsigned long t = millis();
+  unsigned long t_entry = millis();
+
   while(true)
   {
     
@@ -76,7 +78,8 @@ void turnwithgyro(int angle)
     motorB(u);
     motorC(-u);
     errold = err;
-    if(abs(err) < 3 && D == 0) break;
+    if((abs(err) <= 3 && abs(D) <= 2) || 
+       (millis() - t_entry > 2000)) break;
     delay(10);
   }
   

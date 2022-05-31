@@ -3,7 +3,7 @@ const int MPU = 0x68;
 float accX, accY, accZ;
 float gyroX, gyroY, gyroZ;
 float accXdeg, accYdeg, gyroXdeg, gyroYdeg, gyroZdeg;
-float roll, pitch, yaw;
+float roll, pitch;
 
 float accXerror, accYerror, gyroXerror, gyroYerror, gyroZerror;
 float elTime, curTime, prevTime;
