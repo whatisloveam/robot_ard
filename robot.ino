@@ -6,7 +6,6 @@ float yaw = 0;
 
 void PAction() {
 	upd();
-
 	int u = 0.3 *(s1 - s2);
 	motorB(150 + u);
 	motorC(150 - u);
@@ -20,68 +19,32 @@ void lineForCross() {
 	while(!(s1 < 45 && s2 < 45)) PAction();
 }
 void upd() {
-	s1 = map(analogRead(A0), 1000, 30, 0, 100);
-	s2 = map(analogRead(A1), 1000, 30, 0, 100);
+	s1 = map(analogRead(A1), 1000, 30, 0, 100);
+	s2 = map(analogRead(A2), 1000, 30, 0, 100);
 }
 int pos = 0;
 void setup()
 {
-	pinMode(4, OUTPUT);
-	pinMode(5, OUTPUT);
-	pinMode(6, OUTPUT);
-	pinMode(7, OUTPUT);
-  gyrosetup();
-  turnwithgyro(-90);
-  turnwithgyro(90);
-  motorC(0);
-  motorB(0);
-  //turnwithgyro(-270);
-  //turnwithgyro(0);
+	pinMode(9, OUTPUT);
+	pinMode(10, OUTPUT);
+	pinMode(11, OUTPUT);
+	pinMode(12, OUTPUT);
+  Serial.begin(57600);
+  while(analogRead(A0) < 512);
+  /*moveForTime(100, 500);
+  motorBForTime(100, 500);
+  moveForTime(100, 500);
+  motorBForTime(100, 500);
+  moveForTime(100, 500);
+  motorBForTime(100, 500);
+  moveForTime(100, 500);*/
 }
-
-
 
 void loop()
 {	
-	gyrogetdata();
-  
-  //turnwithgyro(-180);
-  //turnwithgyro(-270);
-  //turnwithgyro(0);
-}
-
-void turnwithgyro(int angle)
-{
-  yaw = 0;
-  int u;
-  int err, errold;
-  int P;
-  int D;
-  float I = 0;
-  unsigned long t_entry = millis();
-
-  while(true)
-  {
-    
-    gyrogetdata();
-    err = pos - angle;
-    P = err * 3;
-    I += err * 0.01;
-    D = (err - errold)*10;
-    Serial.print(P);
-    Serial.print("\t");
-    Serial.print(I);
-    Serial.print("\t");
-    Serial.println(D);
-    u = P + I + D;
-    u = constrain(u, -120, 120);
-    motorB(u);
-    motorC(-u);
-    errold = err;
-    if((abs(err) <= 3 && abs(D) <= 2) || 
-       (millis() - t_entry > 2000)) break;
-    delay(10);
-  }
-  
-  
+	upd();
+  Serial.print(s1);
+  Serial.print("\t");
+  Serial.println(s2);
+  delay(10);
 }
