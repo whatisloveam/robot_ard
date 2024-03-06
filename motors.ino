@@ -1,30 +1,30 @@
 void motorC(int power) // -255  -  255
 {
-	power = constrain(power, -255, 255);
+	power = -constrain(power, -255, 255);
 	if(power > 0) //forward
 	{
-		digitalWrite(4, 0);
-		analogWrite(5, power);
+		digitalWrite(9, 0);
+		analogWrite(10, power);
 	}
 	else
 	{
-		digitalWrite(4, 1);
-		analogWrite(5, 255+power);
+		digitalWrite(9, 1);
+		analogWrite(10, 255+power);
 	}
 }
 
 void motorB(int power) // -255  -  255
 {
-	power = constrain(power, -255, 255);
+	power = -constrain(power, -255, 255);
 	if(power > 0) //forward
 	{
-		digitalWrite(7, 0);
-		analogWrite(6, power);
+		digitalWrite(12, 0);
+		analogWrite(11, power);
 	}
 	else
 	{
-		digitalWrite(7, 1);
-		analogWrite(6, 255+power);
+		digitalWrite(12, 1);
+		analogWrite(11, 255+power);
 	}
 }
 
